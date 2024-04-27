@@ -1,0 +1,106 @@
+import React, { useState,useContext,useLayoutEffect} from 'react'
+import { Text, View,Image,TextInput,Button,StyleSheet,TouchableOpacity} from 'react-native'
+import { StatusBar } from 'expo-status-bar'
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../actions/authActions';
+import { AuthContext } from '../context/AuthContext';
+import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export default function LoginScreen() {
+  //const dispatch = useDispatch();
+  const [email, setEmail] = useState('paulngandasmith@gmail.com');
+  const [password, setPassword] = useState('azerty');
+  const navigation = useNavigation();
+  const {isLoading,login} = useContext(AuthContext);
+
+
+  
+  //const {isLoading,login} = useContext(AuthContext);
+
+  /*const [name,setName] = useState('');
+
+  const handleSave = async () => {
+    if(name.length > 0){
+      try{
+        await AsyncStorage.setItem("Name",name)
+      } catch(error){
+        alert(error)
+      }
+      navigation.navigate('Home')
+    }
+    else{
+      alert('Veuillez indiquer votre nom')
+    }
+  }
+  const load = async () =>{
+    try {
+      let name = await AsyncStorage.getItem('Name');
+      if(name !== null){
+        navigation.navigate('Home')
+      }
+    } catch (error) {
+      alert(error)
+    }
+  }
+  useLayoutEffect(()=>{
+    load()
+  },[])
+  */
+  
+
+  
+  return (
+    <View className ="">
+      <Image className="w-28 h-28 rounded-full m-auto" source={require('../assets/Logo-Nimale.png')} />
+      <Spinner visible={isLoading}/>
+      <View className ="mt-5">
+        <View>
+          <Text className="ml-5">Identifiant ou adresse e-mail</Text>
+          <TextInput
+            placeholder='Votre Identifiant ou adresse e-mail'
+            placeholderTextColor={'gray'} 
+            className="border border-gray-400 rounded-md p-3 m-5 w-80"
+            onChangeText={(text) => setEmail(text)}
+          />
+        </View>
+        <View>
+          <Text className="ml-5">Mot de passe</Text>
+          <TextInput
+            placeholder="Votre mot de passe"
+            placeholderTextColor={'gray'}
+            className="border border-gray-400 rounded-md p-3 m-5 w-80"
+            secureTextEntry
+            onChangeText={(text) => setPassword(text)}
+            />       
+          </View>
+        </View>
+        <View className="ml-5">
+          <Text>Vous n'avez pas de compte ?</Text>
+          <TouchableOpacity>
+            <Text className="mt-1" style={styles.customerText}>S'inscrire</Text>
+          </TouchableOpacity>
+        </View>
+       <View style={styles.customerColor}  className ="rounded p-1 m-5 w-80">
+        <Button
+          title="Se connecter"
+          //onPress={()=> navigation.navigate('Home')}
+          //onPress={handleSave}
+          onPress={() => {login(email,password)}}
+          color= "white"
+        />
+      </View>
+    </View>
+  )
+  
+}
+const styles = StyleSheet.create({
+    customerColor: {
+      backgroundColor: '#ab39d7',
+    },
+    customerText:{
+      color:'#ab39d7',
+    }
+    
+  })
